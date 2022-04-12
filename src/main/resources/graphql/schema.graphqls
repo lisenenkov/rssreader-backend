@@ -1,0 +1,55 @@
+type Query {
+    rssSource(id: ID!): RssSource
+    rssSources: [RssSource]
+    film(id: ID!): Film
+    films(ignore: Boolean): [Film]
+}
+
+type Mutation {
+    createRssSource(rssSource: RssSourceContent): RssSource
+    updateRssSource(id: ID!, rssSource:RssSourceContent): RssSource
+    deleteRssSource(id: ID): RssSource
+}
+
+type RssSource {
+    id: ID!
+    name: String
+    url: String
+    disabled: Boolean
+}
+
+input RssSourceContent {
+    name: String
+    url: String
+    disabled: Boolean
+}
+
+type Film {
+    id: ID!
+    name: String
+    year: String
+    externalInfo: [ExternalFilmInfo]
+    links: [FilmLink]
+}
+
+type FilmLink {
+    id: ID!
+    rssSource: ID
+    url: String
+    category: String
+    name: String
+    year: String
+    comment: String
+    pubDate: String
+    description: String
+}
+
+type ExternalFilmInfo {
+    site: ExternalFilmInfoSite
+    externalId: String
+}
+
+enum ExternalFilmInfoSite {
+    Kinopoisk
+    IMDB
+}

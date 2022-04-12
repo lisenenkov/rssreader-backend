@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <item turbo="true">
+      <title>Category :: Title (2020) 1999p</title>
+      <link>https://test/sets?t=12345678</link>
+      <pubDate>Thu, 24 Jun 2021 16:32:34 GMT</pubDate>
+      <description>descriptiondescriptiondescriptiondescription
+        a href=&quot;https://www.imdb.com/title/tt12345/?ref_=plg_rt_1&quot;
+        ;a href=&quot;https://www.kinopoisk.ru/film/54321/&quot;</description>
+      <category>Category1</category>
+      <category>Category2</category>
+    </item>
+  </channel>
+</rss>
