@@ -8,7 +8,9 @@ type Query {
 type Mutation {
     createRssSource(rssSource: RssSourceContent): RssSource
     updateRssSource(id: ID!, rssSource:RssSourceContent): RssSource
-    deleteRssSource(id: ID): RssSource
+    deleteRssSource(id: ID!): RssSource
+    updateFilm(id: ID!, film: FilmContent): Film
+    updateFilmLinks(ids: [FilmLinkId], filmLink: FilmLinkContent): [FilmLink]
 }
 
 type RssSource {
@@ -28,13 +30,18 @@ type Film {
     id: ID!
     name: String
     year: String
+    ignore: Boolean
     externalInfo: [ExternalFilmInfo]
     links: [FilmLink]
 }
 
+input FilmContent {
+    ignore: Boolean
+}
+
 type FilmLink {
     id: ID!
-    rssSource: ID
+    rssSource: ID!
     url: String
     category: String
     name: String
@@ -42,6 +49,16 @@ type FilmLink {
     comment: String
     pubDate: String
     description: String
+    viewed: Boolean
+}
+
+input FilmLinkId {
+    id: ID!
+    rssSource: ID!
+}
+
+input FilmLinkContent {
+    viewed: Boolean
 }
 
 type ExternalFilmInfo {

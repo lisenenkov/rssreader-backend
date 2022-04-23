@@ -22,6 +22,7 @@ public class FilmLinkDTO {
     private String comment;
     private Date pubDate;
     private String description;
+    private Boolean viewed;
 
     public FilmLinkDTO(FilmLink filmLink){
         this.id = filmLink.getFilmLinkId().getId();
@@ -33,6 +34,7 @@ public class FilmLinkDTO {
         this.comment = filmLink.getComment();
         this.pubDate = filmLink.getPubDate();
         this.description = filmLink.getDescription();
+        this.viewed = filmLink.getViewed();
     }
 
 }

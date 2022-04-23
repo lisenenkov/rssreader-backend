@@ -1,10 +1,13 @@
 package com.fox.rssreader.controllers;
 
-import com.fox.rssreader.graphql.dto.FilmDTO;
-import com.fox.rssreader.model.entities.Film;
+import com.fox.rssreader.graphql.dto.*;
+import com.fox.rssreader.model.ids.FilmLinkId;
+import com.fox.rssreader.model.repositories.FilmLinkRepository;
 import com.fox.rssreader.model.repositories.FilmRepository;
+import com.fox.rssreader.model.repositories.RssSourceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -15,23 +18,18 @@ import java.util.List;
 @AllArgsConstructor
 public class FilmController {
     private final FilmRepository filmRepository;
+    private final FilmLinkRepository filmLinkRepository;
+    private final RssSourceRepository rssSourceRepository;
 
     @QueryMapping
     @Transactional
     public List<FilmDTO> films(@Argument Boolean ignore) {
-
-        List<Film> films;
-        if (ignore == null) {
-            films = filmRepository.findAll();
-        }else{
-            films = filmRepository.findAllByIgnore(ignore);
-        }
-        return films
+        return filmRepository.findLastPublished(ignore)
                 .stream()
                 .map(film -> {
                     var filmDTO = new FilmDTO(film);
                     filmDTO.fillExternalInfo(film);
-                    return  filmDTO;
+                    return filmDTO;
                 })
                 .toList();
     }
@@ -48,8 +46,43 @@ public class FilmController {
         var filmDTO = new FilmDTO(film.get());
         filmDTO.fillExternalInfo(film.get());
         filmDTO.fillLinks(film.get());
-        return  filmDTO;
+        return filmDTO;
 
+    }
+
+    @MutationMapping
+    @Transactional
+    public FilmDTO updateFilm(@Argument Long id, @Argument(name = "film") FilmContentDTO filmContent) {
+        if (filmContent == null) return null;
+        var optionalFilm = filmRepository.findById(id);
+        if (optionalFilm.isEmpty()) return null;
+        var film = optionalFilm.get();
+        filmContent.modifyFilm(film);
+        filmRepository.save(film);
+
+        return new FilmDTO(film);
+    }
+
+    @MutationMapping
+    @Transactional
+    public List<FilmLinkDTO> updateFilmLinks(@Argument(name = "ids")  List<FilmLinkIdDTO> ids,
+                                            @Argument(name = "filmLink") FilmLinkContentDTO filmLinkContent) {
+        if (filmLinkContent == null) return null;
+
+        var filmLinkIds = ids.stream()
+                .map(id_value -> new FilmLinkId(
+                        rssSourceRepository.getReferenceById(id_value.getRssSource()),
+                        id_value.getId()))
+                .toList();
+        var filmLinks = filmLinkRepository.findAllById(filmLinkIds);
+        for (var filmLink : filmLinks) {
+            filmLinkContent.modifyFilmLink(filmLink);
+        }
+        filmLinkRepository.saveAll(filmLinks);
+
+        return filmLinks.stream()
+                .map(FilmLinkDTO::new)
+                .toList();
     }
 
 }

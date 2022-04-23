@@ -1,10 +1,10 @@
 package com.fox.rssreader.model.entities;
 
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -24,9 +24,11 @@ public class Film {
     @Column(nullable = false)
     private Boolean ignore = false;
 
-    @OneToMany(mappedBy ="film")
-    private List<ExternalFilmInfo> externalFilmInfos = new ArrayList<>();
+    @OneToMany(mappedBy ="film", fetch = FetchType.LAZY)
+    @OrderBy("externalFilmInfoId.site")
+    private Set<ExternalFilmInfo> externalFilmInfos = new HashSet<>();
 
-    @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
-    private List<FilmLink> links = new ArrayList<>();
+    @OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
+    @OrderBy("pubDate DESC")
+    private Set<FilmLink> links = new HashSet<>();
 }

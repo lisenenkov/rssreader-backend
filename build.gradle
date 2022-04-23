@@ -8,6 +8,12 @@ group = 'com.fox'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+jar {
+    processResources {
+        exclude('*.sample')
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

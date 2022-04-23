@@ -18,11 +18,13 @@ public class FilmDTO {
     private Long id;
     private String name;
     private String year;
+    private Boolean ignore;
 
     public FilmDTO(Film film) {
         this.id = film.getId();
         this.name = film.getName();
         this.year = film.getYear();
+        this.ignore = film.getIgnore();
     }
 
     public void fillExternalInfo(Film film) {

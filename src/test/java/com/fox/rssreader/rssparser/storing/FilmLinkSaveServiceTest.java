@@ -50,7 +50,9 @@ public class FilmLinkSaveServiceTest {
         rssItem.setLink("https://test/sets?t=12345678");
         rssItem.setTitle("Category :: Title (2020) 1999p");
         rssItem.setPubDate("Thu, 24 Jun 2021 16:32:34 GMT");
-        rssItem.setDescription("descriptiondescriptiondescriptiondescription " + "a href=\"https://www.imdb.com/title/tt12345/?ref_=plg_rt_1\" " + ";a href=\"https://www.kinopoisk.ru/film/54321/\"");
+        rssItem.setDescription("descriptiondescriptiondescriptiondescription " +
+                               "a href=\"https://www.imdb.com/title/tt12345/?ref_=plg_rt_1\" " +
+                               ";a href=\"https://www.kinopoisk.ru/film/54321/\"");
         rssItem.setCategory("category");
 
         //first link
