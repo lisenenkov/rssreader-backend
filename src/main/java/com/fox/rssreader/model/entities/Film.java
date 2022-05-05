@@ -12,7 +12,7 @@ import java.util.*;
 @Table(name = "films")
 public class Film {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 500, nullable = false)
