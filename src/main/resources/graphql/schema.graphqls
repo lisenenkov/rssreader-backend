@@ -3,14 +3,31 @@ type Query {
     rssSources: [RssSource]
     film(id: ID!): Film
     films(ignore: Boolean): [Film]
+    settings: User
 }
 
 type Mutation {
+    login(user: String!, password: String!): User
+    register(user: String!, password: String!, passwordConfirmation: String): Boolean
+    logout: Boolean
     createRssSource(rssSource: RssSourceContent): RssSource
     updateRssSource(id: ID!, rssSource:RssSourceContent): RssSource
     deleteRssSource(id: ID!): RssSource
     updateFilm(id: ID!, film: FilmContent): Film
     updateFilmLinks(ids: [FilmLinkId], filmLink: FilmLinkContent): [FilmLink]
+}
+
+type User {
+    name: String!,
+    showViewed: Boolean,
+    showIgnored: Boolean,
+    token: String
+}
+
+input UserContent {
+    name: String!,
+    showViewed: Boolean,
+    showIgnored: Boolean
 }
 
 type RssSource {

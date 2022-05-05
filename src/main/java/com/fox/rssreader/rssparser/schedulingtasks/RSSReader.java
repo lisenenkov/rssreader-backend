@@ -16,7 +16,7 @@ public class RSSReader {
     private RssSourceRepository rssSourceRepository;
     private FilmLinkSaveService filmLinkSaveService;
 
-    @Scheduled(fixedRate = 3600_000)
+    //@Scheduled(fixedRate = 3600_000)
     public void process() {
         for (var rssSource: rssSourceRepository.findByDisabledIsFalse()) {
             try {
