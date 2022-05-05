@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "rss_sources")
 public class RssSource {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 100, nullable = false)
